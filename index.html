@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MisTake</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1c2842">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#1c2842;--card:#2b3b62;--line:#3b4e7c;--txt:#eaf0ff;--mut:#9fb0d6;--acc:#8eb2ff;--star:#ffd98a;--red:#ff6b7a;--ok:#8fe3c0;--peach:#f5b9a1;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:linear-gradient(180deg,#22305a,var(--bg) 40%);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+#app{max-width:760px;margin:0 auto;padding:16px 16px 110px}
+header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+h1{font-size:26px;margin:0;flex:1;letter-spacing:.3px}
+h1 span{color:var(--peach)}
+h2{margin:0;font-size:20px;flex:1}
+.ib{width:40px;height:40px;border-radius:50%;border:0;background:var(--card);color:var(--txt);font-size:18px;cursor:pointer}
+.ib.sm{width:34px;height:34px;font-size:16px}
+.tabs{display:flex;background:var(--card);border-radius:16px;padding:4px;margin-bottom:16px}
+.tabs button{flex:1;border:0;background:none;color:var(--mut);padding:10px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--acc);color:#14203d}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+.sc{background:var(--card);border-radius:20px;padding:18px 14px;cursor:pointer;border:1px solid transparent;transition:.15s}
+.sc:hover{border-color:var(--acc);transform:translateY(-2px)}
+.sc b{display:block;font-size:16px;margin-bottom:6px}
+.sc small,.mut{color:var(--mut);font-size:13px}
+.row{background:var(--card);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.rh{display:flex;align-items:center;padding:14px 16px;cursor:pointer;gap:8px}
+.rh span:first-child{flex:1}
+.pill{background:#1c2842;color:var(--acc);border-radius:999px;font-size:12px;padding:3px 10px;font-weight:600}
+.pill.z{color:var(--mut)}
+.qs{padding:0 12px 12px;display:grid;gap:8px}
+.qc{display:flex;gap:12px;background:#243457;border-radius:14px;padding:8px;cursor:pointer;align-items:center}
+.qc img{width:64px;height:64px;object-fit:cover;border-radius:10px;background:#111a30}
+.qc p{margin:4px 0 0;font-size:12px;color:var(--mut);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.st b{font-weight:400;color:#47598a;font-size:18px}
+.st b.on{color:var(--star)}
+.st.max b.on{color:var(--red)}
+.st.big b{font-size:30px;cursor:pointer;padding:0 2px}
+.fab{position:fixed;right:max(18px,calc(50% - 360px));bottom:calc(22px + env(safe-area-inset-bottom,0px));width:60px;height:60px;border-radius:50%;border:0;background:var(--peach);color:#3a2218;font-size:32px;box-shadow:0 8px 24px #0006;cursor:pointer}
+.foot{display:flex;gap:10px;margin-top:22px}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-size:15px;font-weight:600;background:var(--card);color:var(--txt);cursor:pointer}
+.btn.p{background:var(--acc);color:#14203d}
+.btn.ok{background:var(--ok);color:#0f3326}
+.btn.no{background:var(--red);color:#3a0d14}
+.btn.g{background:none;color:var(--mut)}
+.md{position:fixed;inset:0;background:#0d1426e6;z-index:20;overflow:auto;padding:calc(14px + env(safe-area-inset-top,0px)) 14px 30px}
+.mb{max-width:640px;margin:0 auto;background:var(--bg);border-radius:24px;padding:18px;border:1px solid var(--line)}
+label.f{display:block;margin:14px 0 6px;color:var(--mut);font-size:13px}
+select,textarea{width:100%;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:11px;font:inherit}
+textarea{min-height:80px;resize:vertical}
+.pk{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pk label{border:2px dashed var(--line);border-radius:16px;min-height:130px;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--mut);font-size:13px;cursor:pointer;overflow:hidden;padding:6px}
+.pk img{width:100%;max-height:160px;object-fit:contain}
+.pk input{display:none}
+.vi{width:100%;max-height:62vh;object-fit:contain;background:#111a30;border-radius:16px;cursor:zoom-in;display:block;margin:12px 0}
+.seg{display:flex;gap:8px}
+.seg .btn{flex:1;padding:9px}
+.seg .btn.on{background:var(--acc);color:#14203d}
+.note{background:var(--card);border-radius:14px;padding:12px;white-space:pre-wrap;font-size:14px;margin:10px 0}
+.acts{display:flex;gap:10px;margin-top:12px}.acts .btn{flex:1;font-size:18px}
+.zo{position:fixed;inset:0;background:#000d;z-index:50;display:flex;align-items:center;justify-content:center;touch-action:none;overflow:hidden}
+.zo img{max-width:100%;max-height:100%;user-select:none;-webkit-user-drag:none;transform-origin:center}
+.zo .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:42px;height:42px;border-radius:50%;border:0;background:#fff3;color:#fff;font-size:20px}
+.zo i{position:absolute;bottom:20px;color:#fff9;font-size:12px;font-style:normal}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--acc);color:#14203d;padding:10px 18px;border-radius:999px;z-index:60;font-weight:600;font-size:14px}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+.res{text-align:center;font-weight:700;padding:10px;border-radius:12px;margin-top:10px}
+</style></head>
+<body><div id="app"></div><div id="md"></div>
+<script>
+const R={
+TYT:{
+"Türkçe":"Sözcükte Anlam|Cümlede Anlam|Paragraf|Ses Bilgisi|Yazım Kuralları|Noktalama İşaretleri|Sözcük Türleri|Cümle Bilgisi|Anlatım Bozukluğu",
+"Matematik":"Temel Kavramlar|Sayı Basamakları|Bölme ve Bölünebilme|EBOB-EKOK|Rasyonel Sayılar|Üslü Sayılar|Köklü Sayılar|Mutlak Değer|Çarpanlara Ayırma|Denklemler|Eşitsizlikler|Oran-Orantı|Problemler|Kümeler|Fonksiyonlar|Permütasyon-Kombinasyon-Olasılık|Veri ve İstatistik",
+"Geometri":"Doğruda ve Üçgende Açılar|Üçgenler|Çokgenler|Dörtgenler|Çember ve Daire|Analitik Geometri|Katı Cisimler",
+"Fizik":"Fizik Bilimine Giriş|Madde ve Özellikleri|Hareket ve Kuvvet|Enerji|Isı ve Sıcaklık|Elektrostatik|Elektrik ve Manyetizma|Basınç|Kaldırma Kuvveti|Dalgalar|Optik",
+"Kimya":"Kimya Bilimi|Atom ve Periyodik Sistem|Kimyasal Türler Arası Etkileşimler|Maddenin Halleri|Kimyasal Hesaplamalar|Karışımlar|Asit-Baz-Tuz|Kimya Her Yerde",
+"Biyoloji":"Canlıların Ortak Özellikleri|Canlıların Temel Bileşenleri|Hücre|Hücre Bölünmeleri|Canlıların Sınıflandırılması|Kalıtım|Ekosistem",
+"Tarih":"Tarih Bilimi|İlk ve Orta Çağlarda Türk Dünyası|İslam Medeniyeti|Osmanlı Kuruluş-Yükselme|Osmanlı Duraklama-Dağılma|Kurtuluş Savaşı|Atatürk İlke ve İnkılapları|Çağdaş Türk ve Dünya Tarihi",
+"Coğrafya":"Doğa ve İnsan|Dünya’nın Şekli ve Hareketleri|Harita Bilgisi|İklim|Yerin Yapısı|Nüfus ve Yerleşme|Ekonomik Faaliyetler|Doğal Afetler",
+"Felsefe":"Felsefeye Giriş|Bilgi Felsefesi|Varlık Felsefesi|Ahlak Felsefesi|Siyaset Felsefesi|Sanat Felsefesi|Din Felsefesi|Bilim Felsefesi",
+"Din Kültürü":"İnanç|İbadet|Ahlak ve Değerler|Hz. Muhammed|Vahiy ve Akıl|Kültür ve Medeniyet"},
+AYT:{
+"Matematik":"Fonksiyonlar|Polinomlar|İkinci Dereceden Denklemler|Parabol|Trigonometri|Logaritma|Diziler|Limit|Türev|İntegral|Permütasyon-Kombinasyon-Olasılık",
+"Geometri":"Doğrunun Analitiği|Çemberin Analitiği|Dönüşüm Geometrisi|Katı Cisimler",
+"Fizik":"Vektörler|Bağıl Hareket|Newton Yasaları|Atışlar|İş-Güç-Enerji|İtme ve Momentum|Tork ve Denge|Elektrik Alan ve Potansiyel|Manyetizma|Dalgalar|Modern Fizik",
+"Kimya":"Modern Atom Teorisi|Gazlar|Çözeltiler|Kimyasal Tepkimelerde Enerji|Tepkimelerde Hız|Kimyasal Denge|Asit-Baz Dengesi|Elektrokimya|Organik Kimya",
+"Biyoloji":"Sinir Sistemi|Endokrin Sistem|Duyu Organları|Destek ve Hareket|Sindirim|Dolaşım|Solunum|Boşaltım|Üreme|Genetik ve Protein Sentezi|Fotosentez-Kemosentez|Hücresel Solunum|Bitki Biyolojisi|Komünite ve Popülasyon"}};
+const topics=(e,s)=>(R[e][s]||"").split("|").filter(Boolean).concat("Diğer");
+let Q=[],db=null,st={tab:"TYT",sub:null,open:null},F={},V={};
+const $=s=>document.querySelector(s);
+const esc=t=>(t||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function openDB(){return new Promise(r=>{try{const q=indexedDB.open("mistake",1);q.onupgradeneeded=()=>q.result.createObjectStore("q",{keyPath:"id"});q.onsuccess=()=>{db=q.result;r()};q.onerror=()=>r()}catch(e){r()}})}
+function tx(m,f){return new Promise(r=>{if(!db)return r();try{const t=db.transaction("q",m),x=f(t.objectStore("q"));t.oncomplete=()=>r(x&&x.result);t.onerror=()=>r()}catch(e){r()}})}
+const load=async()=>{Q=(await tx("readonly",s=>s.getAll()))||[]};
+const put=q=>tx("readwrite",s=>s.put(q));
+const del=id=>tx("readwrite",s=>s.delete(id));
+function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+const stars=(n,fn,big)=>`<span class="st${n>=5?" max":""}${big?" big":""}">`+[1,2,3,4,5].map(i=>`<b class="${i<=n?"on":""}"${fn?` onclick="${fn}(${i})"`:""}>★</b>`).join("")+"</span>";
+const cnt=(e,s,t)=>Q.filter(q=>q.exam==e&&q.sub==s&&(t==null||q.topic==t)).length;
+
+function render(){
+  const a=$("#app");
+  if(!st.sub){
+    a.innerHTML=`<header><h1>Mis<span>Take</span></h1><button class="ib" title="Rastgele soru" onclick="rand()">🎲</button></header>
+    <div class="tabs">${["TYT","AYT"].map(t=>`<button class="${st.tab==t?"on":""}" onclick="st.tab='${t}';render()">${t}${t=="AYT"?" Sayısal":""}</button>`).join("")}</div>
+    <div class="grid">${Object.keys(R[st.tab]).map(s=>`<div class="sc" onclick="st.sub='${s}';st.open=null;render()"><b>${s}</b><small>${cnt(st.tab,s)} soru</small></div>`).join("")}</div>
+    <div class="foot"><button class="btn" onclick="backup()">⬇ Yedekle</button><button class="btn" onclick="$('#rf').click()">⬆ Geri yükle</button><input id="rf" type="file" accept=".json,application/json" hidden onchange="restore(this)"></div>`;
+  }else{
+    const e=st.tab,s=st.sub;
+    a.innerHTML=`<header><button class="ib" onclick="st.sub=null;render()">←</button><h2>${e} · ${s}</h2><button class="ib sm" title="Rastgele soru" onclick="rand()">🎲</button></header>`+
+    topics(e,s).map(t=>{const n=cnt(e,s,t),o=st.open==t;
+      return `<div class="row"><div class="rh" onclick="st.open=${o?"null":`'${t.replace(/'/g,"\\'")}'`};render()"><span>${t}</span><span class="pill${n?"":" z"}">${n} soru</span></div>`+
+      (o?`<div class="qs">${n?Q.filter(q=>q.exam==e&&q.sub==s&&q.topic==t).sort((x,y)=>y.created-x.created).map(q=>`<div class="qc" onclick="view('${q.id}')"><img src="${q.a}"><div>${stars(q.stars)}${q.note?`<p>${esc(q.note)}</p>`:""}</div></div>`).join(""):`<div class="mut" style="padding:6px">Bu konuda henüz soru yok.</div>`}</div>`:"")+`</div>`}).join("");
+  }
+  a.insertAdjacentHTML("beforeend",`<button class="fab" title="Soru ekle" onclick="add()">+</button>`);
+}
+
+function close(){$("#md").innerHTML="";render()}
+function opts(arr,v){return arr.map(x=>`<option${x==v?" selected":""}>${x}</option>`).join("")}
+function add(){
+  F={exam:st.tab,sub:st.sub||Object.keys(R[st.tab])[0],topic:null,a:null,b:null,stars:3,note:""};
+  F.topic=st.open||topics(F.exam,F.sub)[0];
+  if(!topics(F.exam,F.sub).includes(F.topic))F.topic=topics(F.exam,F.sub)[0];
+  form()
+}
+function form(){
+  $("#md").innerHTML=`<div class="md"><div class="mb"><header><h2>Soru ekle</h2><button class="ib sm" onclick="close()">✕</button></header>
+  <label class="f">Sınav</label><select onchange="F.exam=this.value;F.sub=Object.keys(R[F.exam])[0];F.topic=topics(F.exam,F.sub)[0];sync();form()">${opts(["TYT","AYT"],F.exam)}</select>
+  <label class="f">Ders</label><select onchange="F.sub=this.value;F.topic=topics(F.exam,F.sub)[0];sync();form()">${opts(Object.keys(R[F.exam]),F.sub)}</select>
+  <label class="f">Konu</label><select onchange="F.topic=this.value">${opts(topics(F.exam,F.sub),F.topic)}</select>
+  <label class="f">Görseller</label><div class="pk">
+  <label>${F.a?`<img src="${F.a}">`:"📷 Çözümsüz soru"}<input type="file" accept="image/*" onchange="pick('a',this)"></label>
+  <label>${F.b?`<img src="${F.b}">`:"✅ Çözümlü hali"}<input type="file" accept="image/*" onchange="pick('b',this)"></label></div>
+  <label class="f">Zorluk (1 kolay – 5 en zor)</label>${stars(F.stars,"setS",1)}
+  <label class="f">Not</label><textarea oninput="F.note=this.value">${esc(F.note)}</textarea>
+  <div class="foot"><button class="btn g" onclick="close()">Vazgeç</button><button class="btn p" style="flex:1" onclick="saveQ()">Kaydet</button></div></div></div>`}
+function sync(){F.note=($("textarea")||{}).value??F.note}
+function setS(n){sync();F.stars=n;form()}
+function comp(f){return new Promise(r=>{const fr=new FileReader;fr.onload=()=>{const i=new Image;i.onload=()=>{const s=Math.min(1,1600/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext("2d").drawImage(i,0,0,c.width,c.height);r(c.toDataURL("image/jpeg",.85))};i.onerror=()=>r(null);i.src=fr.result};fr.onerror=()=>r(null);fr.readAsDataURL(f)})}
+async function pick(k,inp){const f=inp.files[0];if(!f)return;sync();const u=await comp(f);if(!u)return toast("Görsel okunamadı");F[k]=u;form()}
+async function saveQ(){
+  sync();if(!F.a)return toast("Soru görselini ekle");
+  const q={id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),exam:F.exam,sub:F.sub,topic:F.topic,a:F.a,b:F.b,stars:F.stars,note:F.note,created:Date.now()};
+  Q.push(q);await put(q);st.tab=q.exam;st.sub=q.sub;st.open=q.topic;close();toast("Kaydedildi")
+}
+
+function view(id,rand){
+  V={id,side:0,rand:!!rand,done:null};vrender()
+}
+function vrender(){
+  const q=Q.find(x=>x.id==V.id);if(!q)return close();
+  const img=V.side&&q.b?q.b:q.a;
+  $("#md").innerHTML=`<div class="md"><div class="mb"><header><h2>${V.rand?"🎲 Rastgele soru":q.exam+" · "+q.sub}</h2><button class="ib sm" onclick="close()">✕</button></header>
+  <div class="mut">${V.rand?q.exam+" · "+q.sub+" · ":""}${q.topic}</div>
+  <div style="margin:8px 0">${stars(q.stars,V.rand?null:"chS",1)}</div>
+  <div class="seg"><button class="btn${V.side?"":" on"}" onclick="V.side=0;vrender()">Soru</button><button class="btn${V.side?" on":""}" onclick="V.side=1;vrender()">Çözüm</button></div>
+  ${V.side&&!q.b?`<div class="empty">Çözümlü görsel eklenmemiş.</div>`:`<img class="vi" src="${img}" onclick="zoom(this.src)">`}
+  <div class="mut" style="text-align:center;font-size:12px">Yakınlaştırmak için görsele dokun</div>
+  ${q.note?`<div class="note">${esc(q.note)}</div>`:""}
+  ${V.rand?(V.done==null?`<div class="acts"><button class="btn ok" onclick="ans(true)">✓ Çözdüm</button><button class="btn no" onclick="ans(false)">✗ Çözemedim</button></div>`
+   :`<div class="res" style="background:${V.done?"#8fe3c022":"#ff6b7a22"};color:${V.done?"var(--ok)":"var(--red)"}">${V.done?"✓ Çözdün!":"✗ Zorluk bir yıldız arttı"}</div><div class="acts"><button class="btn p" onclick="rand()">Sonraki soru 🎲</button></div>`)
+   :`<div class="foot"><button class="btn no" onclick="delQ('${q.id}')">Sil</button></div>`}
+  </div></div>`}
+async function chS(n){const q=Q.find(x=>x.id==V.id);q.stars=n;await put(q);vrender()}
+async function ans(ok){const q=Q.find(x=>x.id==V.id);if(!ok)q.stars=Math.min(5,q.stars+1);q.last=ok;V.done=ok;await put(q);vrender()}
+async function delQ(id){if(!confirm("Bu soru silinsin mi?"))return;Q=Q.filter(q=>q.id!=id);await del(id);close()}
+function rand(){
+  const pool=Q.filter(q=>(!st.sub||(q.exam==st.tab&&q.sub==st.sub)));
+  if(!pool.length)return toast("Önce soru ekle");
+  const c=pool.length>1?pool.filter(q=>q.id!=V.id):pool;
+  view(c[Math.floor(Math.random()*c.length)].id,true)
+}
+
+function zoom(src){
+  const o=document.createElement("div");o.className="zo";o.innerHTML=`<img src="${src}"><button class="x">✕</button><i>Sıkıştır / tekerlek ile yakınlaştır · çift dokun</i>`;
+  document.body.appendChild(o);const im=o.firstChild,P=new Map();let s=1,x=0,y=0,d0=1,s0=1;
+  const ap=()=>{if(s<=1){s=1;x=y=0}im.style.transform=`translate(${x}px,${y}px) scale(${s})`};
+  const dist=()=>{const[a,b]=[...P.values()];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)};
+  const kd=e=>{if(e.key=="Escape")end()};const end=()=>{o.remove();document.removeEventListener("keydown",kd)};document.addEventListener("keydown",kd);
+  o.onwheel=e=>{e.preventDefault();s=Math.min(6,s*(e.deltaY<0?1.15:.87));ap()};
+  o.onpointerdown=e=>{if(e.target.closest(".x"))return;P.set(e.pointerId,e);o.setPointerCapture(e.pointerId);if(P.size==2){d0=dist();s0=s}};
+  o.onpointermove=e=>{const p=P.get(e.pointerId);if(!p)return;P.set(e.pointerId,e);if(P.size==2){s=Math.min(6,Math.max(1,s0*dist()/d0))}else if(s>1){x+=e.clientX-p.clientX;y+=e.clientY-p.clientY}ap()};
+  o.onpointerup=o.onpointercancel=e=>P.delete(e.pointerId);
+  o.ondblclick=()=>{s=s>1?1:2.5;ap()};
+  o.querySelector(".x").onclick=end;
+}
+
+async function backup(){
+  const name=`mistake-yedek-${new Date().toISOString().slice(0,10)}.json`,blob=new Blob([JSON.stringify({app:"MisTake",v:1,q:Q})],{type:"application/json"});
+  let dl=null;try{dl=await window.claude.use("downloads")}catch(e){}
+  if(dl){try{await dl.save({filename:name,data:blob})}catch(e){if(e&&e.code!="declined")toast("Yedek kaydedilemedi")}return}
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000);toast("Yedek indirildi")
+}
+async function restore(inp){
+  const f=inp.files[0];if(!f)return;
+  try{const j=JSON.parse(await f.text());if(j.app!="MisTake"||!Array.isArray(j.q))throw 0;
+    for(const q of j.q)if(q&&q.id&&q.a){await put(q)}
+    await load();render();toast(j.q.length+" soru geri yüklendi")}catch(e){toast("Geçersiz yedek dosyası")}
+  inp.value=""
+}
+(async()=>{await openDB();await load();try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}render();try{navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}})();
+</script></body></html>
