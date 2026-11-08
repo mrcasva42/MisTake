@@ -119,7 +119,7 @@ function render(){
   a.insertAdjacentHTML("beforeend",`<button class="fab" title="Soru ekle" onclick="add()">+</button>`);
 }
 
-function close(){$("#md").innerHTML="";render()}
+function closeM(){$("#md").innerHTML="";render()}
 function opts(arr,v){return arr.map(x=>`<option${x==v?" selected":""}>${x}</option>`).join("")}
 function add(){
   F={exam:st.tab,sub:st.sub||Object.keys(R[st.tab])[0],topic:null,a:null,b:null,stars:3,note:""};
@@ -128,7 +128,7 @@ function add(){
   form()
 }
 function form(){
-  $("#md").innerHTML=`<div class="md"><div class="mb"><header><h2>Soru ekle</h2><button class="ib sm" onclick="close()">✕</button></header>
+  $("#md").innerHTML=`<div class="md"><div class="mb"><header><h2>Soru ekle</h2><button class="ib sm" onclick="closeM()">✕</button></header>
   <label class="f">Sınav</label><select onchange="F.exam=this.value;F.sub=Object.keys(R[F.exam])[0];F.topic=topics(F.exam,F.sub)[0];sync();form()">${opts(["TYT","AYT"],F.exam)}</select>
   <label class="f">Ders</label><select onchange="F.sub=this.value;F.topic=topics(F.exam,F.sub)[0];sync();form()">${opts(Object.keys(R[F.exam]),F.sub)}</select>
   <label class="f">Konu</label><select onchange="F.topic=this.value">${opts(topics(F.exam,F.sub),F.topic)}</select>
@@ -137,7 +137,7 @@ function form(){
   <label>${F.b?`<img src="${F.b}">`:"✅ Çözümlü hali"}<input type="file" accept="image/*" onchange="pick('b',this)"></label></div>
   <label class="f">Zorluk (1 kolay – 5 en zor)</label>${stars(F.stars,"setS",1)}
   <label class="f">Not</label><textarea oninput="F.note=this.value">${esc(F.note)}</textarea>
-  <div class="foot"><button class="btn g" onclick="close()">Vazgeç</button><button class="btn p" style="flex:1" onclick="saveQ()">Kaydet</button></div></div></div>`}
+  <div class="foot"><button class="btn g" onclick="closeM()">Vazgeç</button><button class="btn p" style="flex:1" onclick="saveQ()">Kaydet</button></div></div></div>`}
 function sync(){F.note=($("textarea")||{}).value??F.note}
 function setS(n){sync();F.stars=n;form()}
 function comp(f){return new Promise(r=>{const fr=new FileReader;fr.onload=()=>{const i=new Image;i.onload=()=>{const s=Math.min(1,1600/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext("2d").drawImage(i,0,0,c.width,c.height);r(c.toDataURL("image/jpeg",.85))};i.onerror=()=>r(null);i.src=fr.result};fr.onerror=()=>r(null);fr.readAsDataURL(f)})}
@@ -145,16 +145,16 @@ async function pick(k,inp){const f=inp.files[0];if(!f)return;sync();const u=awai
 async function saveQ(){
   sync();if(!F.a)return toast("Soru görselini ekle");
   const q={id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),exam:F.exam,sub:F.sub,topic:F.topic,a:F.a,b:F.b,stars:F.stars,note:F.note,created:Date.now()};
-  Q.push(q);await put(q);st.tab=q.exam;st.sub=q.sub;st.open=q.topic;close();toast("Kaydedildi")
+  Q.push(q);await put(q);st.tab=q.exam;st.sub=q.sub;st.open=q.topic;closeM();toast("Kaydedildi")
 }
 
 function view(id,rand){
   V={id,side:0,rand:!!rand,done:null};vrender()
 }
 function vrender(){
-  const q=Q.find(x=>x.id==V.id);if(!q)return close();
+  const q=Q.find(x=>x.id==V.id);if(!q)return closeM();
   const img=V.side&&q.b?q.b:q.a;
-  $("#md").innerHTML=`<div class="md"><div class="mb"><header><h2>${V.rand?"🎲 Rastgele soru":q.exam+" · "+q.sub}</h2><button class="ib sm" onclick="close()">✕</button></header>
+  $("#md").innerHTML=`<div class="md"><div class="mb"><header><h2>${V.rand?"🎲 Rastgele soru":q.exam+" · "+q.sub}</h2><button class="ib sm" onclick="closeM()">✕</button></header>
   <div class="mut">${V.rand?q.exam+" · "+q.sub+" · ":""}${q.topic}</div>
   <div style="margin:8px 0">${stars(q.stars,V.rand?null:"chS",1)}</div>
   <div class="seg"><button class="btn${V.side?"":" on"}" onclick="V.side=0;vrender()">Soru</button><button class="btn${V.side?" on":""}" onclick="V.side=1;vrender()">Çözüm</button></div>
@@ -167,7 +167,7 @@ function vrender(){
   </div></div>`}
 async function chS(n){const q=Q.find(x=>x.id==V.id);q.stars=n;await put(q);vrender()}
 async function ans(ok){const q=Q.find(x=>x.id==V.id);if(!ok)q.stars=Math.min(5,q.stars+1);q.last=ok;V.done=ok;await put(q);vrender()}
-async function delQ(id){if(!confirm("Bu soru silinsin mi?"))return;Q=Q.filter(q=>q.id!=id);await del(id);close()}
+async function delQ(id){if(!confirm("Bu soru silinsin mi?"))return;Q=Q.filter(q=>q.id!=id);await del(id);closeM()}
 function rand(){
   const pool=Q.filter(q=>(!st.sub||(q.exam==st.tab&&q.sub==st.sub)));
   if(!pool.length)return toast("Önce soru ekle");
